@@ -2,8 +2,9 @@
   var state = recline.View.parseQueryString(decodeURIComponent(window.location.search));
   chrome.extension.sendMessage({command: 'getData', url: state.url}, function(response) {
     var records = null;
+    parser = recline.Backend.CSV.parseCSV(response, delimiter=';')
     try {
-      records = recline.Backend.CSV.parseCSV(response);
+      records = parser();
     } catch(e) {
       console.log(e);
       alert('Failed to parse CSV file ...');
